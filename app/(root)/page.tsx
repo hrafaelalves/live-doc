@@ -1,8 +1,9 @@
 import AddDocumentsBtn from '@/components/AddDocumentsBtn'
 import Header from '@/components/Header'
+import Image from 'next/image'
+
 import { SignedIn, UserButton } from '@clerk/nextjs'
 import { currentUser } from '@clerk/nextjs/server'
-import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
 const Home = async () => {
