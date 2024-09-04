@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: "Your go-to collaborative editor"
 }
 
-export default function RootLayout({ children }: {children: ReactNode}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <ClerkProvider
       appearance={{

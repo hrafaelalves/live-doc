@@ -10,16 +10,15 @@ import Header from "@/components/Header"
 import { Input } from './ui/input'
 import Image from 'next/image'
 import { updateDocument } from '@/lib/actions/room.actions'
+import Loader from './Loader'
 
-const CollaborativeRoom = ({ roomId, roomMetadata }: CollaborativeRoomProps) => {
-  const currentUserType = 'editor';
-
+const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: CollaborativeRoomProps) => {
   const [documentTitle, setDocumentTitle] = useState(roomMetadata.title)
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const updateTitleHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
     if(e.key === 'Enter'){
@@ -62,7 +61,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata }: CollaborativeRoomProps) => 
 
   return (
     <RoomProvider id={roomId}>
-      <ClientSideSuspense fallback={<div>Loading…</div>}>
+      <ClientSideSuspense fallback={<Loader />}>
         <div className='collaborative-room'>
           <Header>
               <div ref={containerRef} className="flex w-fit items-center justify-center gap-2">
@@ -114,7 +113,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata }: CollaborativeRoomProps) => 
 
           </Header>
           
-          <Editor />
+          <Editor roomId={roomId} currentUserType={currentUserType} />
         </div>
       </ClientSideSuspense>
     </RoomProvider>
