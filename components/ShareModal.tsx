@@ -18,6 +18,7 @@ import { Input } from "./ui/input";
 import { UserTypeSelecter } from "./UserTypeSelecter";
 
 import { Collaborator } from "./Collaborator";
+import { updateDocumentAccess } from "@/lib/actions/room.actions";
 
 
 export const ShareModal = ({ roomId, collaborators, creatorId, currentUserType }: ShareDocumentDialogProps) => {
@@ -29,7 +30,16 @@ export const ShareModal = ({ roomId, collaborators, creatorId, currentUserType }
   const [email, setEmail] = useState('')
   const [userType, setUserType] = useState<UserType>('viewer')
   
-  const shareDocumentHandler = async () => {}
+  const shareDocumentHandler = async () => {
+    setLoading(true)
+    await updateDocumentAccess({
+      roomId,
+      email,
+      userType: userType as UserType,
+      updatedBy: user.info
+    })
+    setLoading(false)
+  }
   
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -79,7 +89,7 @@ export const ShareModal = ({ roomId, collaborators, creatorId, currentUserType }
           <Button 
             type="submit" 
             onClick={shareDocumentHandler} 
-            className="gradient-blue flex h-full gap-1 px-5"
+            className={`gradient-blue flex h-full gap-1 px-5`}
             disabled={loading}
           >
             {loading ? 'Sending...' : 'Invite'}
@@ -89,7 +99,14 @@ export const ShareModal = ({ roomId, collaborators, creatorId, currentUserType }
         <div className="my-2 space-y-2">
           <ul className="flex flex-col">
             {collaborators.map((collaborator) => (
-              <Collaborator key={collaborator.id} />
+              <Collaborator 
+                key={collaborator.id} 
+                roomId={roomId} 
+                creatorId={creatorId}
+                email={collaborator.email}
+                collaborator={collaborator}
+                user={user.info}
+              />
             ))}
           </ul>
         </div>
