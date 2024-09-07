@@ -40,6 +40,7 @@ const Home = async () => {
             />
           </div>
 
+          {/* TODO: Implement and reorder feature with https://docs.dndkit.com/ */}
           <ul className='document-ul'>
             {roomDocuments.data.map(({ id, metadata, createdAt }: any) => (
               <li key={id} className='document-list-item'>
