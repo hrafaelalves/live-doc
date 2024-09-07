@@ -8,6 +8,7 @@ import { currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { getDocuments } from '@/lib/actions/room.actions'
 import { dateConverter } from '@/lib/utils'
+import { DeleteModal } from '@/components/DeleteModal'
 
 const Home = async () => {
   const clerkUser = await currentUser();
@@ -58,7 +59,8 @@ const Home = async () => {
                     <p className='text-sm font-light text-blue-100'>Created about {dateConverter(createdAt)}</p>
                   </div>
                 </Link>
-                {/* TODO: Add delete button */}
+
+                <DeleteModal roomId={id} />
               </li>
             ))}
           </ul>
